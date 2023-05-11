@@ -1,0 +1,29 @@
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-webservice-1
+spec:
+  selector:
+    app: webserver                    # each pod that needs to use this service must have this in their metadata:labels
+    apptier: gold                     # AND also need to have this label also if selector has multiple labels
+  ports:
+    - name: http                      # we can expose more than 1 ports, but should give unique name 
+      protocol: TCP
+      port: 80                        # service level port exposed internally in the cluster
+      targetPort: 9080                # pod (ie container) level port to send requests to
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 9443
+      #targetPort: (eg. change would be 3306 if mysql, be 8201 if elasticsearch, be 5601 for rabbitmq depending on the target app that we want to work with)
+    - name: nodeport
+      nodePort: 30163       # so when NODE receives request on this static port, it will forward requests to any of the pods matching the selector labels onto port 9000
+                            # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      port: 8080
+      targetPort: 9000
+  type: ClusterIP                    # the DEFAULT service, accessible only within cluster. CANNOT acess pods from outside the cluster
+  #type: NodePort                    # expose the service on a static PORT on each NODE (hence NodePort) so that we can access the service from outside the cluster 
+
+

@@ -8,5 +8,40 @@ POD
 ./pod/pod03_various_options.yml
 
 ------------------------------------------------------------------------------
+KUBECTL
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+
+delete
+------
+kubectl delete pod <podname>
+kubectl delete pod -all                   # all pods from the current namespace
+
+
+get
+---
+kubectl get pods pdnm-my-pod -o json -o yaml     # gives the output of the pod of the in-memory object of the api-server
+kubectl get pods --show-labels
+kubectl get pods --sort-by='.status.podIP' -o wide
+kubectl get pods -A --sort-by=.metadata.namespace
+kubectl get pods --sort-by=.status.containerStatuses[0].restartCount
+kubectl get pods -l pdlb-environment=production -o custom-columns=POD_IP:.status.podIPs                    # matching these labels
+kubectl get pods -o wide --namespace=ns-test
+
+
+namespace
+---------
+kubectl get namespaces
+kubectl create namespace ns-test
+kubectl describe namespace ns-test
+kubectl config set-context --current --namespace=ns-test                                 # changes the namespace in the config file, so permanent locally unless changed again
+
+
+run
+---
+kubectl run mypod1 --image=nginx
+
+namespace
+---------
 
 

@@ -1,0 +1,33 @@
+---
+# https://kubernetes.io/docs/concepts/services-networking/service/
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-basic-ngnix
+spec:
+  selector:
+    app: webserver
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  type: ClusterIP
+
+#$ kubectl describe service svc-basic-ngnix
+#Name:              svc-basic-ngnix
+#Namespace:         ns-test
+#Labels:            <none>
+#Annotations:       <none>
+#Selector:          app=webserver
+#Type:              ClusterIP
+#IP Family Policy:  SingleStack
+#IP Families:       IPv4
+#IP:                10.109.237.241
+#IPs:               10.109.237.241
+#Port:              <unset>  80/TCP
+#TargetPort:        80/TCP
+#Endpoints:         192.168.129.225:80
+#Session Affinity:  None
+#Events:            <none>
+
