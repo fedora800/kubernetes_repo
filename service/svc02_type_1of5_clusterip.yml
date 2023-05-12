@@ -4,16 +4,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-cip-service
+  name: my-svc02-clusterip
 spec:
   selector:
-    app: metrics
+    app: webserver
     department: sales
   type: ClusterIP
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 8080
+    targetPort: 80
 
-#NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)
-#my-cip-service   ClusterIP   10.11.247.213   none          80/TCP
+
+#$ k get service my-svc02-clusterip
+#NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+#my-svc02-clusterip   ClusterIP   10.99.106.88     <none>        80/TCP    7s
+
+#$ k describe service my-svc02-clusterip
+#Name:              my-svc02-clusterip
+#Namespace:         ns-test
+#Labels:            <none>
+#Annotations:       <none>
+#Selector:          app=metrics,department=sales
+#Type:              ClusterIP
+#IP Family Policy:  SingleStack
+#IP Families:       IPv4
+#IP:                10.99.106.88
+#IPs:               10.99.106.88
+#Port:              <unset>  80/TCP
+#TargetPort:        8080/TCP
+#Endpoints:         <none>
+#Session Affinity:  None
+#Events:            <none>
+
+

@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pdnm-pod-nginx
+  name: test-pod-nginx
   labels:
     app: webserver
 spec:

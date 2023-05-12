@@ -4,6 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: svc-webservice-1
+  namespace: ns-london-apps
 spec:
   selector:
     app: webserver                    # each pod that needs to use this service must have this in their metadata:labels
@@ -11,8 +12,8 @@ spec:
   ports:
     - name: http                      # we can expose more than 1 ports, but should give unique name 
       protocol: TCP
-      port: 80                        # service level port exposed internally in the cluster
-      targetPort: 9080                # pod (ie container) level port to send requests to
+      port: 80                        # SERVICE level PORT exposed internally in the cluster
+      targetPort: 9080                # POD (ie container) level PORT to send requests to
     - name: https
       protocol: TCP
       port: 443
@@ -21,6 +22,7 @@ spec:
     - name: nodeport
       nodePort: 30163       # so when NODE receives request on this static port, it will forward requests to any of the pods matching the selector labels onto port 9000
                             # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+                            #  best to omit this field and let Kubernetes allocate a nodePort for us, helps to avoid collisions between Services.
       port: 8080
       targetPort: 9000
   type: ClusterIP                    # the DEFAULT service, accessible only within cluster. CANNOT acess pods from outside the cluster
