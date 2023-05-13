@@ -23,6 +23,7 @@ exec
 kubectl exec <podname> -it -- bash
 
 
+
 delete
 ------
 kubectl delete pod <podname>
@@ -37,8 +38,29 @@ kubectl get pods --sort-by='.status.podIP' -o wide
 kubectl get pods -A --sort-by=.metadata.namespace
 kubectl get pods --sort-by=.status.containerStatuses[0].restartCount
 kubectl get pods -l pdlb-environment=production -o custom-columns=POD_IP:.status.podIPs                    # matching these labels
+kubectl get pods  -l region=emea,app=webserver  # list pods matching BOTH labels (AND criteria)
+kubectl get pods -l 'run in (mypod1,mypod2)'
 kubectl get pods -o wide --namespace=ns-test
+kubectl get pods --selector='app=webserver'
 
+
+kubectl get endpoints -A
+NAMESPACE          NAME                              ENDPOINTS                                                           AGE
+calico-apiserver   calico-api                        192.168.189.2:5443,192.168.189.3:5443                               5d16h
+calico-system      calico-kube-controllers-metrics   192.168.189.62:9094                                                 5d16h
+calico-system      calico-typha                      172.31.104.228:5473,172.31.107.40:5473                              5d17h
+default            kubernetes                        172.31.104.228:6443                                                 5d17h
+kube-system        kube-dns                          192.168.189.61:53,192.168.189.63:53,192.168.189.61:53 + 3 more...   5d17h
+ns-test            test-service                      192.168.129.232:80                                                  26h
+
+label  (assigns labels at command-line if required, get --show-labels to see)
+---------
+kubectl label pods myapp type=trading region=emea
+
+
+logs
+----
+kubectl logs -f mypod1
 
 namespace
 ---------
@@ -48,11 +70,32 @@ kubectl describe namespace ns-test
 kubectl config set-context --current --namespace=ns-test                                 # changes the namespace in the config file, so permanent locally unless changed again
 
 
+port-forward
+------------
+# since ngnix runs on 80, this will forward the local host port 4000 to pod port 80 -
+# especially useful to directly communicate from local machine to a given port on a Pod without having to manually expose Services too
+$ kubectl port-forward my-ngnix-pod1 4000:80 --address='0.0.0.0'
+Forwarding from 0.0.0.0:4000 -> 80
+# or we can let kubectl choose the local port - 
+$ kubectl port-forward deployment/mongo :27017
+Forwarding from 127.0.0.1:63753 -> 27017
+Forwarding from [::1]:63753 -> 27017
+
+
+
 run
 ---
 kubectl run mypod1 --image=nginx
 
 namespace
 ---------
+
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+$ kubectl get pod test-pod-nginx --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}'
+80
 
 
