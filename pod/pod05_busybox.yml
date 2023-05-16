@@ -1,0 +1,27 @@
+---
+
+# https://levelup.gitconnected.com/busybox-in-k8s-the-swiss-army-knife-of-embedded-linux-ce7ced32de63
+# https://jekhokie.github.io/k8s/busybox/helm/2020/04/23/small-web-server-to-k8s.html
+# kcdebug() { kubectl run -i --rm --tty debug --image=busybox --restart=Never -- sh
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-busybox
+spec:
+  containers:
+  - name: ctr-busybox
+    image: busybox:1.28
+    command:
+      - sleep
+      - "3600"
+#     command:
+#       - cat
+#     args:
+#       - "/etc/hosts"
+
+# $ kubectl run busybox --namespace=test-busybox \
+#                       --port=8280 \
+#                       --image=busybox \
+#                       -- sh -c "echo 'Hello' > /var/www/index.html && httpd -f -p 8280 -h /var/www/"
+

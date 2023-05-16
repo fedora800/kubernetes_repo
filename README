@@ -37,6 +37,12 @@ delete
 kubectl delete pod <podname>
 kubectl delete pod -all                   # all pods from the current namespace
 
+$ k apply -f test_networkpolicy.yml
+networkpolicy.networking.k8s.io/allow-out-to-in created   
+# but i could not delete at all
+$ kubectl delete networkpolicy allow-out-to-in
+Error from server (NotFound): networkpolicies.networking.k8s.io "allow-out-to-in" not found
+# i had to CHANGE to default namespace and only then i was able to delete
 
 get
 ---
@@ -51,6 +57,7 @@ kubectl get pods -l 'run in (mypod1,mypod2)'
 kubectl get pods -l app=webserver     -o go-template='{{range .items}}{{.status.podIP}}{{"\n"}}{{end}}'
 kubectl get pods -o wide --namespace=ns-test
 kubectl get pods --selector='app=webserver'
+kubectl get networkpolicy  -A
 
 
 kubectl get endpoints -A
@@ -108,5 +115,19 @@ namespace
 
 $ kubectl get pod test-pod-nginx --template='{{(index (index .spec.containers 0).ports 0).containerPort}}{{"\n"}}'
 80
+
+
+--------------------------------------------------------------------------------
+TROUBLESHOOTING
+https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/
+k describe
+k get events
+k logs 
+k exec and printenv
+
+
+
+
+
 
 
