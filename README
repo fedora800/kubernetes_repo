@@ -12,6 +12,9 @@ POD
 KUBECTL
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
+apply
+-----
+kubectl apply -f filename.yml
 
 edit
 ----
@@ -21,7 +24,12 @@ kubectl edit service <servicename>          # will edit the yaml of that resourc
 exec
 ----
 kubectl exec <podname> -it -- bash
+kubectl exec nginx-mydemo -- printenv  | grep SERVICE  | grep NGINX   # gives good info
 
+
+describe
+--------
+kubectl describe endpoints test-service   # will show all the pods endpoint for this service
 
 
 delete
@@ -37,9 +45,10 @@ kubectl get pods --show-labels
 kubectl get pods --sort-by='.status.podIP' -o wide
 kubectl get pods -A --sort-by=.metadata.namespace
 kubectl get pods --sort-by=.status.containerStatuses[0].restartCount
-kubectl get pods -l pdlb-environment=production -o custom-columns=POD_IP:.status.podIPs                    # matching these labels
+kubectl get pods -l env=prod -o custom-columns=POD_IP:.status.podIPs    # get POD IPs
 kubectl get pods  -l region=emea,app=webserver  # list pods matching BOTH labels (AND criteria)
 kubectl get pods -l 'run in (mypod1,mypod2)'
+kubectl get pods -l app=webserver     -o go-template='{{range .items}}{{.status.podIP}}{{"\n"}}{{end}}'
 kubectl get pods -o wide --namespace=ns-test
 kubectl get pods --selector='app=webserver'
 
@@ -80,6 +89,8 @@ Forwarding from 0.0.0.0:4000 -> 80
 $ kubectl port-forward deployment/mongo :27017
 Forwarding from 127.0.0.1:63753 -> 27017
 Forwarding from [::1]:63753 -> 27017
+# note that local host means not nodes, but local host on which we ran the portforward command.
+# address 0.0.0.0 is important
 
 
 

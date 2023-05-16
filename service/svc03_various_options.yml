@@ -25,7 +25,7 @@ spec:
                             #  best to omit this field and let Kubernetes allocate a nodePort for us, helps to avoid collisions between Services.
       port: 8080
       targetPort: 9000
-  type: ClusterIP                    # the DEFAULT service, accessible only within cluster. CANNOT acess pods from outside the cluster
+  type: ClusterIP                    # the DEFAULT service, accessible only within cluster. CANNOT acess pods from outside the cluster. exposes the service on an internal IP of the cluster.
   #type: NodePort                    # expose the service on a static PORT on each NODE (hence NodePort) so that we can access the service from outside the cluster 
 
 

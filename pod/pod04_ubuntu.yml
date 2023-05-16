@@ -1,0 +1,20 @@
+---
+# a simple non-exiting ubuntu pod that will contain tools like apt, nslookup, telnet, ping and other debug utilities 
+# as other app pods are very lean and distro-less and have nothing in them for tblshooting 
+# we can attach this container into a misbehaving pod and see what’s going on directly.
+# BUT, even ubuntu image DOES NOT have those tools, i saw some others use busybox
+# or try this - https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/#ephemeral-container
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-22
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - name: ctr-ubuntu
+    image: ubuntu:22.04
+    command: ["/bin/sleep", "3650d"]
+#    command: ["while true; do echo container_is_running - $(date) >> /tmp/ubuntu_container.log; sleep 10; done"]   # not currently work in pod # CrashLoopBackOff
+
