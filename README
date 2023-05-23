@@ -10,11 +10,26 @@ POD
 
 ------------------------------------------------------------------------------
 KUBECTL
-https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/      *** VERY USEFUL ***
 
 apply
 -----
 kubectl apply -f filename.yml
+
+
+config
+------
+kubectl config view [--raw]
+-contexts
+kubectl config get-contexts                # show all contexts 
+kubectl config current-contexts            # shows current context being used
+kubectl config set-context                 # set a context entry in kubeconfig
+kubectl config use-context <context-name>        # switches the current-context in a kubeconfig file
+-namespaces
+kubectl config view --minify | grep "namespace:"            # shows current namespace being used
+kubectl config set-context --current --namespace=ns-test    # changes the namespace in the config file, so permanent locally unless changed again
+
+
 
 edit
 ----
@@ -83,7 +98,6 @@ namespace
 kubectl get namespaces
 kubectl create namespace ns-test
 kubectl describe namespace ns-test
-kubectl config set-context --current --namespace=ns-test                                 # changes the namespace in the config file, so permanent locally unless changed again
 
 
 port-forward
