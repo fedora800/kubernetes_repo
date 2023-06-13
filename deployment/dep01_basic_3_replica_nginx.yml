@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: dpl-nginx
   labels:
     app: nginx
 spec:
@@ -17,7 +17,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
+      - name: ctr-nginx
         image: nginx:1.14.2
         ports:
         - containerPort: 80

@@ -1,0 +1,26 @@
+---
+# https://acloudguru-content-attachment-production.s3-accelerate.amazonaws.com/1604091615750-devops-wb002%20-%20S11-L06%20Troubleshooting%20K8s%20Networking%20Issues.pdf
+
+apiVersion: v1
+kind: Pod
+metadata:
+name: nginx-netshoot
+labels:
+app: nginx-netshoot
+spec:
+containers:
+- name: nginx
+image: nginx:1.19.1
+---
+apiVersion: v1
+kind: Service
+metadata:
+name: svc-netshoot
+spec:
+type: ClusterIP
+selector:
+app: nginx-netshoot
+ports:
+- protocol: TCP
+port: 80
+targetPort: 80

@@ -1,0 +1,18 @@
+---
+# basic busybox does not have curl, so use this specific image
+# A ‘clean’ way to run curl inside Kubernetes is to run it in a separate Pod.
+# You can create a Pod running curl, do the troubleshooting work you need to do, and then terminate the Pod.
+# https://www.tutorialworks.com/kubernetes-curl/?utm_content=cmp-true
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-busybox-curl
+spec:
+  containers:
+  - name: ctr-busybox-curl
+#    image: radial/busyboxplus:curl
+    image: curlimages/curl:8.1.2
+    command:
+      - sleep
+      - "3600"
